@@ -5,7 +5,8 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"os"
+
+	"github.com/wp-wachi/stripe-payment-golang/config"
 )
 
 // LINEMessage represents the request body for LINE API
@@ -19,7 +20,7 @@ type LINEMessage struct {
 
 // SendMessageToLINE sends a message to a LINE user or group
 func SendMessageToLINE(message string) error {
-	lineToken := os.Getenv("LINE_ACCESS_TOKEN")
+	lineToken := config.GetEnv("LINE_ACCESS_TOKEN")
 	if lineToken == "" {
 		log.Println("LINE_ACCESS_TOKEN is not set")
 		return nil

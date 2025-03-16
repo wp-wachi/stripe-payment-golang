@@ -2,16 +2,16 @@ package services
 
 import (
 	"log"
-	"os"
 
 	"github.com/stripe/stripe-go/v81"
 	"github.com/stripe/stripe-go/v81/paymentintent"
+	"github.com/wp-wachi/stripe-payment-golang/config"
 	"github.com/wp-wachi/stripe-payment-golang/models"
 )
 
 // CreatePaymentIntent calls Stripe API to create a payment
 func CreatePaymentIntent(amount int64, currency string) (string, error) {
-	stripe.Key = os.Getenv("STRIPE_SECRET_KEY")
+	stripe.Key = config.GetEnv("STRIPE_SECRET_KEY")
 
 	// Create PaymentIntent
 	params := &stripe.PaymentIntentParams{
