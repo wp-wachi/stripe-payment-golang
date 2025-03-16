@@ -8,4 +8,5 @@ import (
 
 func RegisterRoutes(r *gin.Engine) {
 	r.POST("/create-payment-intent", controllers.CreatePaymentHandler)
+	r.POST("/payment-intent-webhook", controllers.StripeWebhookHandler)
 }
