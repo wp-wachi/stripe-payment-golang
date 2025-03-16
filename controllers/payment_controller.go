@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -71,6 +72,10 @@ func StripeWebhookHandler(c *gin.Context) {
 		// repositories.UpdatePaymentStatus(intent.ID, "succeeded")
 		log.Println("✅ Payment successful:", intent.ID)
 
+		// Send message to LINE
+		message := fmt.Sprintf("✅ Payment Successful!\nAmount: %d %s\nTransaction ID: %s", intent.Amount/100, intent.Currency, intent.ID)
+		utils.SendMessageToLINE(message)
+
 	case "payment_intent.payment_failed":
 		var intent stripe.PaymentIntent
 		err := json.Unmarshal(event.Data.Raw, &intent)
@@ -83,6 +88,10 @@ func StripeWebhookHandler(c *gin.Context) {
 		// Update payment status in DB
 		// repositories.UpdatePaymentStatus(intent.ID, "failed")
 		log.Println("❌ Payment failed:", intent.ID)
+
+		// Send failure message to LINE
+		message := fmt.Sprintf("❌ Payment Failed!\nAmount: %d %s\nTransaction ID: %s", intent.Amount/100, intent.Currency, intent.ID)
+		utils.SendMessageToLINE(message)
 
 	default:
 		log.Println("Unhandled event type:", event.Type)
