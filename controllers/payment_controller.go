@@ -6,11 +6,11 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stripe/stripe-go/v81"
 	"github.com/stripe/stripe-go/v81/webhook"
+	"github.com/wp-wachi/stripe-payment-golang/config"
 	"github.com/wp-wachi/stripe-payment-golang/services"
 	"github.com/wp-wachi/stripe-payment-golang/utils"
 )
@@ -49,7 +49,7 @@ func StripeWebhookHandler(c *gin.Context) {
 
 	// Get Stripe signature from headers
 	signatureHeader := c.GetHeader("Stripe-Signature")
-	endpointSecret := os.Getenv("STRIPE_WEBHOOK_SECRET")
+	endpointSecret := config.GetEnv("STRIPE_WEBHOOK_SECRET")
 
 	event, err := webhook.ConstructEvent(body, signatureHeader, endpointSecret)
 	if err != nil {

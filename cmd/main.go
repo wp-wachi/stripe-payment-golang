@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 
-	"github.com/wp-wachi/stripe-payment-golang/config"
 	"github.com/wp-wachi/stripe-payment-golang/middlewares"
 	"github.com/wp-wachi/stripe-payment-golang/routes"
 
@@ -11,7 +10,7 @@ import (
 )
 
 func main() {
-	config.LoadEnv()
+	// config.LoadEnv()
 	// database.ConnectDB()
 
 	r := gin.Default()
